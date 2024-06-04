@@ -1,0 +1,45 @@
+from tkinter import *
+
+def click(event):
+    # Get the text from the clicked button
+    text = event.widget.cget("text")
+    if text == "=":
+        try:
+            # Evaluate the expression and display the result
+            result = eval(entry.get())
+            entry.delete(0, END)
+            entry.insert(END, str(result))
+        except Exception as e:
+            # Handle errors by displaying "Error"
+            entry.delete(0, END)
+            entry.insert(END, "Error")
+    elif text == "C":
+        # Clear the entry field
+        entry.delete(0, END)
+    else:
+        # Append the clicked button's text to the entry field
+        entry.insert(END, text)
+
+root = Tk()
+root.title("Calculator")
+
+# Create an entry field for displaying input and output
+entry = Entry(root, font=("Arial", 18))
+entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+
+# Define the layout and labels of the calculator buttons
+buttons = [
+    ("7", 1, 0), ("8", 1, 1), ("9", 1, 2), ("/", 1, 3),
+    ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3),
+    ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("-", 3, 3),
+    ("0", 4, 0), (".", 4, 1), ("C", 4, 2), ("+", 4, 3),
+    ("=", 5, 0, 1, 4)
+]
+
+# Create buttons and assign event handlers for each
+for (text, row, col, rowspan, colspan) in buttons:
+    btn = Button(root, text=text, font=("Arial", 18), width=5, height=2)
+    btn.grid(row=row, column=col, rowspan=rowspan, columnspan=colspan, padx=5, pady=5)
+    btn.bind("<Button-1>", click)
+
+root.mainloop()
